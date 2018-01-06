@@ -37,6 +37,8 @@ class ArticlesController < ApplicationController
   end
 
   def show
+    @category = Category.find(params[:id])
+    @category_articles = @category.articles.paginate(page: params[:page], per_page: 5)
   end
 
   def destroy
@@ -51,7 +53,7 @@ class ArticlesController < ApplicationController
     end
 
     def article_params
-      params.require(:article).permit(:title, :description)
+      params.require(:article).permit(:title, :description, category_ids: [])
     end
 
     def require_same_user
